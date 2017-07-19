@@ -1,9 +1,11 @@
+import scala.None
 import scala.util.{Failure, Success, Try}
 
 /**
   * Created by Administrator on 19/07/2017.
   */
 class Atbash {
+  val maxMapNumber = 27
   val plainText = Map(('a', 0), ('b', 1), ('c', 2), ('d', 3), ('e', 4), ('f', 5), ('g', 6),
     ('h', 7), ('i', 8), ('j', 9), ('k', 10), ('l', 11), ('m', 12), ('n', 13), ('o', 14), ('p', 15),
     ('q', 16), ('r', 17), ('s', 18), ('t', 19), ('u', 20), ('v', 21), ('w', 22), ('x', 23),
@@ -23,11 +25,10 @@ class Atbash {
     text.toCharArray.map(x => reversePlain(codeFunc(x, cipherText))).mkString
   }
 
-  @SuppressWarnings(Array("org.wartremover.warts.OptionPartial"))
   def codeFunc(char: Char, map: Map[Char, Int]): Int = {
     map.get(char.toLower) match {
-      case x if x.isDefined => x.get //this is safe because it comes after a check to see if x has a value
-      case _ => plainText.get('#').get
+      case Some(x) => x
+      case _ => maxMapNumber
     }
   }
 }
